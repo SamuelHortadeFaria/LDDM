@@ -1,12 +1,24 @@
-import 'package:application_lddm/views/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'home.dart';
 import 'globo.dart';
 import 'login.dart';
 import 'package:provider/provider.dart';
 import 'package:application_lddm/entitis/userProviders.dart';
+import 'package:application_lddm/entitis/database_helper.dart';
 
 class UserProfileScreen extends StatelessWidget {
+
+  Future<void> _logout(BuildContext context) async {
+    await DatabaseHelper().deleteUser();
+    Provider.of<UserProvider>(context, listen: false).clearUsuario();
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => LoginScreen()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // Obtendo as informações do usuário do UserProvider
@@ -15,43 +27,97 @@ class UserProfileScreen extends StatelessWidget {
     // Verificando se o usuário está presente
     if (usuario == null) {
       return Scaffold(
-        appBar: AppBar(title: Text("Perfil")),
-        body: Center(child: Text("Nenhum usuário encontrado.")),
+        appBar: AppBar(title: Text("World Chat")),
+        body: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text("Nenhum usuário encontrado."),
+                SizedBox(height: 20),
+                ElevatedButton(
+                    onPressed: () => Navigator.pushNamed(context, '/cadastro'),
+                    child: Text("Faça o seu Cadastro!")),
+                SizedBox(height: 10),
+                ElevatedButton(
+                    onPressed: () => Navigator.pushNamed(context, '/login'),
+                    child: Text("Entre se já possui uma conta.")),
+              ],
+            ),
+          ),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.language),
+              label: 'País',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.chat),
+              label: 'Chat',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Perfil',
+            ),
+          ],
+          currentIndex: 2, // Mantém a aba de Perfil selecionada
+          onTap: (index) {
+            if (index == 0) {
+              Navigator.push(
+                context,
+                PageTransition(child: CountryLanguageScreen(), type: PageTransitionType.leftToRight),
+              );
+            } else if (index == 1) {
+              Navigator.push(
+                context,
+                PageTransition(child: MyHomePage(), type: PageTransitionType.leftToRight),
+              );
+            }
+            // A tela de perfil já está ativa, então não fazemos nada aqui
+          },
+        ),
       );
     }
 
+    // Caso o usuário esteja presente, exibe o perfil
     return Scaffold(
+
+      //AppBar
       appBar: AppBar(
-        title: Text('WorldChat'),
+        title: Text('Perfil do Usuário'),
+        backgroundColor: Colors.blueAccent,
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
+
+      //Body + Padding
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Center(
+
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // Imagem de perfil
               CircleAvatar(
                 radius: 50,
                 backgroundImage: NetworkImage(usuario.getImagem()),
               ),
               SizedBox(height: 16),
-              // Nome, Idade, Língua Nativa
               Text(
-                'Nome: ${usuario.nome}',
+                'Nome: ${usuario.getNome()}',
                 style: TextStyle(fontSize: 18),
               ),
+              SizedBox(height: 10),
               Text(
-                'Idade: ${usuario.idade}',
+                'Idade: ${usuario.getIdade()}',
                 style: TextStyle(fontSize: 18),
               ),
               SizedBox(height: 16),
-              // Dropdown de Língua Nativa
               DropdownButton<String>(
                 value: usuario.getLingua(),
                 onChanged: (String? newValue) {
-                  // Lógica para alterar a língua nativa, se necessário
+                  // Lógica para alterar a língua nativa
                 },
                 items: [usuario.getLingua()].map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
@@ -61,37 +127,31 @@ class UserProfileScreen extends StatelessWidget {
                 }).toList(),
               ),
               SizedBox(height: 16),
-              // Local onde mora
               Text(
-                'Local onde mora: ${usuario.local}',
+                'Local onde mora: ${usuario.getLocal()}',
                 style: TextStyle(fontSize: 16),
               ),
               SizedBox(height: 16),
-              // Botão de histórico de línguas
               ElevatedButton.icon(
                 onPressed: () {
-                  // Ação ao clicar no botão
+                  // Ação para o histórico de línguas
                 },
                 icon: Icon(Icons.history),
                 label: Text('Histórico de Línguas'),
               ),
               SizedBox(height: 16),
-              // Botão de Sair (voltar para a tela de login)
+              
               ElevatedButton(
                 onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    PageTransition(
-                      child: LoginScreen(), // Tela de login
-                      type: PageTransitionType.bottomToTop,
-                    ),
-                  );
+                  _logout(context);  // Chama a função _logout para realizar o logout
                 },
                 child: Text("Sair"),
               ),
             ],
           ),
-        ),
+
+        )
+
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -108,36 +168,22 @@ class UserProfileScreen extends StatelessWidget {
             label: 'Perfil',
           ),
         ],
-        currentIndex: 2,
+        currentIndex: 2, // Mantém a aba de Perfil selecionada
         onTap: (index) {
           if (index == 0) {
-            // Navegação para a tela de países
             Navigator.push(
               context,
-              PageTransition(
-                child: CountryLanguageScreen(), // Altere para a tela correspondente
-                type: PageTransitionType.leftToRight,
-              ),
+              PageTransition(child: CountryLanguageScreen(), type: PageTransitionType.leftToRight),
             );
           } else if (index == 1) {
-            // Navegação para a tela de chat
             Navigator.push(
               context,
-              PageTransition(
-                child: MyHomePage(), // Altere para a tela correspondente
-                type: PageTransitionType.leftToRight,
-              ),
-            );
-          } else if (index == 2) {
-            // Navegação para a tela de perfil (já está nesta tela)
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => UserProfileScreen()),
+              PageTransition(child: MyHomePage(), type: PageTransitionType.leftToRight),
             );
           }
+          // A tela de perfil já está ativa, então não fazemos nada aqui
         },
       ),
     );
   }
 }
-  

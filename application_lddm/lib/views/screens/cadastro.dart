@@ -2,6 +2,10 @@ import 'package:application_lddm/entitis/usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:application_lddm/services/languages.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import 'package:application_lddm/entitis/userProviders.dart';
+
+import '../../entitis/usuario.dart';
 
 class UserRegistrationScreen extends StatefulWidget {
   @override
@@ -24,19 +28,19 @@ class _UserRegistrationScreenState extends State<UserRegistrationScreen> {
   List<String> _languages = [];
 
   @override
-  void initState(){
-      super.initState();
-      loadLanguages();
+  void initState() {
+    super.initState();
+    loadLanguages();
   }
 
-  Future<void> loadLanguages() async{
-      _languages = await fetchLanguages();
-      setState(() {
-        
-      });
+  Future<void> loadLanguages() async {
+    _languages = await fetchLanguages();
+    setState(() {});
   }
+
   // Variável para armazenar a imagem de perfil
-  String? _profileImage = 'https://example.com/profile-image.jpg'; // Placeholder 
+  String? _profileImage =
+      'https://example.com/profile-image.jpg'; // Placeholder
 
   void _selectProfileImage() {
     // Substituir isso pela implementação real de escolha de imagem
@@ -46,31 +50,41 @@ class _UserRegistrationScreenState extends State<UserRegistrationScreen> {
   }
 
   // Função para salvar o formulário
-  void _saveForm() async{
-
-    Usuario usuario;
+  void _saveForm() async {
     if (_formKey.currentState!.validate()) {
-      // Aqui você faria a lógica de salvar os dados no banco
-      // @GLKaiky
+      Usuario usuario = Usuario(
+        _nameController.text,
+        int.parse(_ageController.text),
+        _selectedLanguage ?? '',
+        _locationController.text,
+        _emailController.text,
+        _loginController.text,
+        _passwordController.text,
+        _profileImage ?? '',
+      );
 
-      //Passando para o objeto usuario.
-      usuario = Usuario(_nameController.text, int.parse(_ageController.text), _selectedLanguage.toString(),
-          _locationController.text, _emailController.text, _loginController.text, _passwordController.text, _profileImage.toString());
-    
       final url = Uri.parse('http://localhost:3000/usuario/create');
-      final response = await http.post(url,
-      headers: {'Content-Type':'application/json'},
-      body: usuario.toJSON());
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: usuario.toJSON(),
+      );
 
-      if(response.statusCode == 201){
 
-        print("ababababa");
+      if (response.statusCode == 201) {
+        print("Usuário criado com sucesso!");
 
-      }else{
-        print(response.statusCode);
+        // Atualiza o estado do usuário no UserProvider
+        Provider.of<UserProvider>(context, listen: false).setUsuario(usuario);
+
+        // Redireciona para a tela de perfil
+        Navigator.pushReplacementNamed(context, '/perfil');
+      } else {
+        print("Erro: ${response.statusCode}");
       }
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -78,149 +92,156 @@ class _UserRegistrationScreenState extends State<UserRegistrationScreen> {
       appBar: AppBar(
         title: Text('Cadastro de Usuário'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Campo de texto para o nome
-              TextFormField(
-                controller: _nameController,
-                decoration: InputDecoration(labelText: 'Nome'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, insira seu nome';
-                  }
-                  return null;    
-                },
-              ),
-              SizedBox(height: 16),
-              // Campo de texto para a idade
-              TextFormField(
-                controller: _ageController,
-                decoration: InputDecoration(labelText: 'Idade'),
-                keyboardType: TextInputType.number,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, insira sua idade';
-                  }   
-                  if (int.tryParse(value) == null) {
-                    return 'Por favor, insira um número válido';
-                  } 
-                  return null;
-                },
-              ),
-              SizedBox(height: 16),
-              // Dropdown para selecionar a língua nativa
-              DropdownButtonFormField<String>(
-                value: _selectedLanguage,
-                hint: Text('Selecione sua língua nativa'),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    _selectedLanguage = newValue;
-                  });
-                },
-                items: _languages.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                validator: (value) {
-                  if (value == null) {
-                    return 'Por favor, selecione uma língua nativa';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 16),
-              // Campo de texto para o local
-              TextFormField(
-                controller: _locationController,
-                decoration: InputDecoration(labelText: 'Local de residência'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, insira seu local de residência';
-                  } 
-                  return null;
-                },
-              ),
-              SizedBox(height: 16),
-              // Campo de texto para o email
-              TextFormField(
-                controller: _emailController,
-                decoration: InputDecoration(labelText: 'Email'),
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, insira seu email';
-                  }
-                  if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-                    return 'Por favor, insira um email válido';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 16),
-              // Campo de texto para o login
-              TextFormField(
-                controller: _loginController,
-                decoration: InputDecoration(labelText: 'Nome de Usuario'),
-                // fazer teste para saber se ja existe
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, insira seu login';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 16),
-              // Campo de texto para a senha
-              TextFormField(
-                controller: _passwordController,
-                decoration: InputDecoration(labelText: 'Senha'),
-                obscureText: true,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, insira sua senha';
-                  }
-                  if (value.length < 6) {
-                    return 'A senha deve ter pelo menos 6 caracteres';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 16),
+      body: ListView(
+        children: [
+          Padding(
 
-              // Seção para a imagem de perfil
-              Row(
+            //Padding
+            padding: EdgeInsets.all(20.0),
+
+            //Formulario
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CircleAvatar(
-                    radius: 40,
-                    backgroundImage: NetworkImage(_profileImage!),
+                  TextFormField(
+                    controller: _nameController,
+                    decoration: InputDecoration(
+                      labelText: 'Nome',
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor, insira seu nome';
+                      }
+                      return null;
+                    },
                   ),
-                  SizedBox(width: 16),
+                  SizedBox(height: 16),
+
+                  TextFormField(
+                    controller: _ageController,
+                    decoration: InputDecoration(labelText: 'Idade'),
+                    keyboardType: TextInputType.number,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor, insira sua idade';
+                      }
+                      if (int.tryParse(value) == null) {
+                        return 'Por favor, insira um número válido';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 16),
+
+                  DropdownButtonFormField<String>(
+                    value: _selectedLanguage,
+                    hint: Text('Selecione sua língua nativa'),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        _selectedLanguage = newValue;
+                      });
+                    },
+                    items: _languages.map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    validator: (value) {
+                      if (value == null) {
+                        return 'Por favor, selecione uma língua nativa';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 16),
+
+                  TextFormField(
+                    controller: _locationController,
+                    decoration: InputDecoration(labelText: 'Local de residência'),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor, insira seu local de residência';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 16),
+
+                  TextFormField(
+                    controller: _emailController,
+                    decoration: InputDecoration(labelText: 'Email'),
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor, insira seu email';
+                      }
+                      if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                        return 'Por favor, insira um email válido';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 16),
+
+                  TextFormField(
+                    controller: _loginController,
+                    decoration: InputDecoration(labelText: 'Nome de Usuario'),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor, insira seu login';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 16),
+
+                  TextFormField(
+                    controller: _passwordController,
+                    decoration: InputDecoration(labelText: 'Senha'),
+                    obscureText: true,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor, insira sua senha';
+                      }
+                      if (value.length < 6) {
+                        return 'A senha deve ter pelo menos 6 caracteres';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 16),
+
+                  Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 40,
+                        backgroundImage: NetworkImage(_profileImage!),
+                      ),
+                      SizedBox(width: 16),
+                      ElevatedButton(
+                        onPressed: _selectProfileImage,
+                        child: Text('Selecionar Imagem de Perfil'),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 24),
+
+                  // Botão para salvar o cadastro
                   ElevatedButton(
-                    onPressed: _selectProfileImage,
-                    child: Text('Selecionar Imagem de Perfil'),
+                    onPressed: _saveForm,
+                    child: Center(child: Text('Cadastrar')),
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: Size(double.infinity, 50),
+                    ),
                   ),
                 ],
               ),
-              Spacer(),
-
-              // Botão para salvar o cadastro
-              ElevatedButton(
-                onPressed: _saveForm,
-                child: Center(child: Text('Cadastrar')),
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(double.infinity, 50),
-                ),
-              ),
-            ],
-          ),
-        ),
+            ),
+          )
+        ],
       ),
     );
   }

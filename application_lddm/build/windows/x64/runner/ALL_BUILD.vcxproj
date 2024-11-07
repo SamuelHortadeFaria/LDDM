@@ -21,7 +21,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{F036D606-A45E-3601-8283-596DFE27C7E7}</ProjectGuid>
+    <ProjectGuid>{8C77A547-1E9D-3A8D-BD52-369988CE22B5}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
     <Platform>x64</Platform>
@@ -88,11 +88,11 @@
     </Midl>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <CustomBuild Include="C:\Users\SamHdF\LDDM\LDDM\LDDM\application_lddm\windows\runner\CMakeLists.txt">
+    <CustomBuild Include="C:\Users\SamHdF\LDDM\application_lddm\windows\runner\CMakeLists.txt">
       <UseUtf8Encoding>Always</UseUtf8Encoding>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Users/SamHdF/LDDM/LDDM/LDDM/application_lddm/windows/runner/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Users/SamHdF/LDDM/application_lddm/windows/runner/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Users/SamHdF/LDDM/LDDM/LDDM/application_lddm/windows -BC:/Users/SamHdF/LDDM/LDDM/LDDM/application_lddm/build/windows/x64 --check-stamp-file C:/Users/SamHdF/LDDM/LDDM/LDDM/application_lddm/build/windows/x64/runner/CMakeFiles/generate.stamp
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Users/SamHdF/LDDM/application_lddm/windows -BC:/Users/SamHdF/LDDM/application_lddm/build/windows/x64 --check-stamp-file C:/Users/SamHdF/LDDM/application_lddm/build/windows/x64/runner/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -101,11 +101,11 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\SamHdF\LDDM\LDDM\LDDM\application_lddm\build\windows\x64\runner\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\SamHdF\LDDM\application_lddm\build\windows\x64\runner\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">Building Custom Rule C:/Users/SamHdF/LDDM/LDDM/LDDM/application_lddm/windows/runner/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">Building Custom Rule C:/Users/SamHdF/LDDM/application_lddm/windows/runner/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">setlocal
-"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Users/SamHdF/LDDM/LDDM/LDDM/application_lddm/windows -BC:/Users/SamHdF/LDDM/LDDM/LDDM/application_lddm/build/windows/x64 --check-stamp-file C:/Users/SamHdF/LDDM/LDDM/LDDM/application_lddm/build/windows/x64/runner/CMakeFiles/generate.stamp
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Users/SamHdF/LDDM/application_lddm/windows -BC:/Users/SamHdF/LDDM/application_lddm/build/windows/x64 --check-stamp-file C:/Users/SamHdF/LDDM/application_lddm/build/windows/x64/runner/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -114,11 +114,11 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">C:\Users\SamHdF\LDDM\LDDM\LDDM\application_lddm\build\windows\x64\runner\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">C:\Users\SamHdF\LDDM\application_lddm\build\windows\x64\runner\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Users/SamHdF/LDDM/LDDM/LDDM/application_lddm/windows/runner/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Users/SamHdF/LDDM/application_lddm/windows/runner/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
-"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Users/SamHdF/LDDM/LDDM/LDDM/application_lddm/windows -BC:/Users/SamHdF/LDDM/LDDM/LDDM/application_lddm/build/windows/x64 --check-stamp-file C:/Users/SamHdF/LDDM/LDDM/LDDM/application_lddm/build/windows/x64/runner/CMakeFiles/generate.stamp
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Users/SamHdF/LDDM/application_lddm/windows -BC:/Users/SamHdF/LDDM/application_lddm/build/windows/x64 --check-stamp-file C:/Users/SamHdF/LDDM/application_lddm/build/windows/x64/runner/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -127,21 +127,21 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\SamHdF\LDDM\LDDM\LDDM\application_lddm\build\windows\x64\runner\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\SamHdF\LDDM\application_lddm\build\windows\x64\runner\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="C:\Users\SamHdF\LDDM\LDDM\LDDM\application_lddm\build\windows\x64\ZERO_CHECK.vcxproj">
-      <Project>{3EFA1A4C-7018-3C54-B803-9CDE340F0D41}</Project>
+    <ProjectReference Include="C:\Users\SamHdF\LDDM\application_lddm\build\windows\x64\ZERO_CHECK.vcxproj">
+      <Project>{6DCCCE85-899B-3B4F-8BD4-979A4F73A21E}</Project>
       <Name>ZERO_CHECK</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
-    <ProjectReference Include="C:\Users\SamHdF\LDDM\LDDM\LDDM\application_lddm\build\windows\x64\runner\application_lddm.vcxproj">
-      <Project>{F2971E61-A5B7-3732-B1D9-9A8018BB2DB3}</Project>
+    <ProjectReference Include="C:\Users\SamHdF\LDDM\application_lddm\build\windows\x64\runner\application_lddm.vcxproj">
+      <Project>{433346AD-96B7-3CF4-ABD3-B487D8C6F5AD}</Project>
       <Name>application_lddm</Name>
     </ProjectReference>
   </ItemGroup>

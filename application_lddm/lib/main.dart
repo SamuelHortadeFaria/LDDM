@@ -1,3 +1,5 @@
+import 'package:application_lddm/views/screens/cadastro.dart';
+import 'package:application_lddm/views/screens/globo.dart';
 import 'package:application_lddm/views/screens/home.dart';
 import 'package:application_lddm/views/screens/login.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +45,17 @@ class MyApp extends StatelessWidget{
   Widget build(BuildContext context){
     return MaterialApp(
       debugShowCheckedModeBanner:false,  
-      home: LoginScreen(),
+      home: SplashScreen(),
+
+      //rotas
+        routes: {
+          '/home' : (context) => MyHomePage(),
+          '/globo' : (context) => CountryLanguageScreen(),
+          '/perfil' : (context) => UserProfileScreen(),
+          '/login' : (context) => LoginScreen(),
+          '/cadastro' : (context) => UserRegistrationScreen(),
+        },
+
     );
   }
 }

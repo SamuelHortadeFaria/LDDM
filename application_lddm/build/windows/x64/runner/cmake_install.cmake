@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/SamHdF/LDDM/LDDM/LDDM/application_lddm/windows/runner
+# Install script for directory: C:/Users/SamHdF/LDDM/application_lddm/windows/runner
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
